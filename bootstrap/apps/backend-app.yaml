@@ -1,14 +1,17 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: skillswap-root
+  name: skillswap-backend
   namespace: argocd
 spec:
   project: default
   source:
     repoURL: https://github.com/Sertyg-a11/skillswap-infra.git
     targetRevision: main
-    path: bootstrap/apps
+    path: apps/skillswap/backend
+    helm:
+      valueFiles:
+        - ../../../environments/dev/values-backend.yaml
   destination:
     server: https://kubernetes.default.svc
     namespace: default
@@ -18,4 +21,3 @@ spec:
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
-
