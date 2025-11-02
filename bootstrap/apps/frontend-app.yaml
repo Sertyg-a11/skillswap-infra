@@ -8,16 +8,13 @@ spec:
   source:
     repoURL: https://github.com/Sertyg-a11/skillswap-infra.git
     targetRevision: main
-    path: apps/skillswap/frontend
+    path: apps/skillswap/frontend                # <- Helm chart folder
     helm:
       valueFiles:
-        - ../../../environments/dev/values-frontend.yaml
+        - ../../../environments/dev/values-frontend.yaml  # <- relative to path above
   destination:
     server: https://kubernetes.default.svc
     namespace: default
   syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
-    syncOptions:
-      - CreateNamespace=true
+    automated: { prune: true, selfHeal: true }
+    syncOptions: [ CreateNamespace=true ]

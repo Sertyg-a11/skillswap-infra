@@ -6,3 +6,5 @@ env:
   SPRING_DATASOURCE_URL: "jdbc:postgresql://skillswap-postgres:5432/skillswap"
   SPRING_DATASOURCE_USERNAME: "skillswap"
   SPRING_DATASOURCE_PASSWORD: "skillswap"
+imagePullSecrets:
+  - name: ghcr-credentials
