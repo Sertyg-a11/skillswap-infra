@@ -1,5 +1,6 @@
 image:
-  tag: "dev"                   # CI will replace with the commit SHA
+  repository: ghcr.io/sertyg-a11/skillswap-backend
+  tag: "dev"                  
 env:
   SPRING_PROFILES_ACTIVE: "dev"
   SPRING_DATASOURCE_URL: "jdbc:postgresql://skillswap-postgres:5432/skillswap"
