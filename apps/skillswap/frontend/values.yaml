@@ -1,0 +1,16 @@
+image:
+  repository: ghcr.io/Sertyg-a11/skillswap-frontend
+  tag: "latest"
+  pullPolicy: IfNotPresent
+
+replicaCount: 1
+service:
+  port: 8080
+
+ingress:
+  enabled: true
+  host: skillswap.localtest.me
+  path: /
+
+env: {}
+resources: {}

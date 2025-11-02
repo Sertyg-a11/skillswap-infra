@@ -1,0 +1,6 @@
+image:
+  tag: "dev"                   # CI will replace with the commit SHA
+ingress:
+  host: skillswap.localtest.me
+env:
+  BACKEND_ORIGIN: "http://skillswap-backend:8080"

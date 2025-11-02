@@ -1,0 +1,17 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+helmCharts:
+  - name: skillswap-frontend
+    namespace: default
+    releaseName: skillswap-frontend
+    version: 0.1.0
+    repo: "file://../../apps/skillswap/frontend"
+    valuesFile: values-frontend.yaml
+
+  - name: skillswap-backend
+    namespace: default
+    releaseName: skillswap-backend
+    version: 0.1.0
+    repo: "file://../../apps/skillswap/backend"
+    valuesFile: values-backend.yaml

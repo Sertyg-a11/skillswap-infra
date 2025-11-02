@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: skillswap-frontend
+spec:
+  selector: { app: skillswap-frontend }
+  ports:
+    - name: http
+      port: 8080
+      targetPort: 8080
