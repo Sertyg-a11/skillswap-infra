@@ -5,5 +5,5 @@ ingress:
   host: skillswap.localtest.me
 env:
   BACKEND_ORIGIN: "http://skillswap-backend:8080"
-imagePullSecrets:
-  - name: ghcr-credentials
+imagePullSecrets: []
+#  - name: ghcr-credentials
