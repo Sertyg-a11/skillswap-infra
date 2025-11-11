@@ -1,5 +1,5 @@
 image:
-  repository: ghcr.io/<your-username>/skillswap-backend
+  repository: ghcr.io/sertyg-a11/skillswap-backend
   tag: "latest"
   pullPolicy: IfNotPresent
 
