@@ -1,6 +1,6 @@
 image:
   repository: ghcr.io/sertyg-a11/skillswap-backend
-  tag: "dev"                  
+  tag: "d0c458a"                  
 env:
   SPRING_PROFILES_ACTIVE: "dev"
   SPRING_DATASOURCE_URL: "jdbc:postgresql://skillswap-postgres:5432/skillswap"
