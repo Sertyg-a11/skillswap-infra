@@ -15,11 +15,3 @@ helmCharts:
     version: 0.1.0
     repo: "file://../../apps/skillswap/backend"
     valuesFile: values-backend.yaml
-
-  # cluster-local PostgreSQL for dev
-  - name: postgresql
-    namespace: default
-    releaseName: skillswap-postgres
-    repo: https://charts.bitnami.com/bitnami
-    version: 15.5.17   
-    valuesFile: values-postgres.yaml
