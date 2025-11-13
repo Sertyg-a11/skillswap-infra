@@ -9,7 +9,6 @@ service:
 
 env:
   SPRING_PROFILES_ACTIVE: "dev"
-  # For dev you can point to a local/dev DB; later use managed DB for stg/prod:
   SPRING_DATASOURCE_URL: "jdbc:postgresql://postgres.dev.svc.cluster.local:5432/skillswap"
   SPRING_DATASOURCE_USERNAME: "skillswap"
-  SPRING_DATASOURCE_PASSWORD: "skillswap"  # dev only; secrets later
+  SPRING_DATASOURCE_PASSWORD: "skillswap"

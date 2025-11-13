@@ -1,0 +1,21 @@
+# Bitnami PostgreSQL chart values (dev-friendly)
+global:
+  postgresql:
+    auth:
+      username: skillswap
+      password: skillswap
+      database: skillswap
+
+primary:
+  persistence:
+    enabled: false          # dev: ephemeral (set true + storageClass if you want PVC)
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+
+# Make the Service name simple and predictable:
+fullnameOverride: skillswap-postgres
