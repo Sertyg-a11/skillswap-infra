@@ -13,6 +13,16 @@ spec:
     chart: postgresql
     targetRevision: 15.5.17
     helm:
+      # 1) Explicit parameters (override chart defaults)
+      parameters:
+        - name: image.registry
+          value: docker.io
+        - name: image.repository
+          value: bitnami/postgresql
+        - name: image.tag
+          value: "16"         # or "16-debian-12" / "16.4.0"
+
+      # 2) Minimal inline values for our release
       values: |
         fullnameOverride: skillswap-postgres
         global:
@@ -24,12 +34,6 @@ spec:
         primary:
           persistence:
             enabled: false
-
-        # >>> add this <<<
-        image:
-          registry: docker.io
-          repository: bitnami/postgresql
-          tag: "16"    # or "16-debian-12" or a specific like "16.4.0"
   syncPolicy:
     automated:
       prune: true
