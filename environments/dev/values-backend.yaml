@@ -1,6 +1,6 @@
 image:
   repository: ghcr.io/sertyg-a11/skillswap-backend
-  tag: "dev"
+  tag: "e272a02"
 
 env:
   SPRING_PROFILES_ACTIVE: "k8s"
