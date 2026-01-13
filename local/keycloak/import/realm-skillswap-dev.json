@@ -1,0 +1,86 @@
+{
+  "realm": "skillswap-dev",
+  "enabled": true,
+  "displayName": "SKILLSWAP",
+  "loginTheme": "skillswap",
+
+  "registrationAllowed": true,
+  "resetPasswordAllowed": true,
+  "loginWithEmailAllowed": true,
+  "duplicateEmailsAllowed": false,
+
+  "sslRequired": "external",
+
+  "roles": {
+    "realm": [
+      { "name": "admin", "description": "Administrator" }
+    ]
+  },
+
+  "clients": [
+    {
+      "clientId": "skillswap-frontend",
+      "name": "skillswap-frontend",
+      "enabled": true,
+      "protocol": "openid-connect",
+
+      "publicClient": true,
+      "clientAuthenticatorType": "client-secret",
+
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": false,
+
+      "redirectUris": [
+        "http://localhost:5173/*"
+      ],
+      "webOrigins": [
+        "http://localhost:5173"
+      ],
+
+      "attributes": {
+        "post.logout.redirect.uris": "http://localhost:5173/*"
+      }
+    },
+
+    {
+      "clientId": "skillswap-api-gateway",
+      "name": "skillswap-api-gateway",
+      "enabled": true,
+      "protocol": "openid-connect",
+
+      "publicClient": true,
+      "standardFlowEnabled": false,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": false
+    }
+  ],
+
+  "users": [
+    {
+      "username": "dev",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Dev",
+      "lastName": "User",
+      "email": "dev@skillswap.local",
+      "credentials": [
+        { "type": "password", "value": "devpass", "temporary": false }
+      ]
+    },
+    {
+      "username": "admin",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Admin",
+      "lastName": "User",
+      "email": "admin@skillswap.local",
+      "credentials": [
+        { "type": "password", "value": "adminpass", "temporary": false }
+      ],
+      "realmRoles": ["admin"]
+    }
+  ]
+}
