@@ -16,4 +16,5 @@ env:
   SPRING_RABBITMQ_USERNAME: "skillswap"
   SPRING_RABBITMQ_PASSWORD: "skillswap"
   USER_SERVICE_URL: "http://skillswap-user-service:8082"
-  KEYCLOAK_ISSUER_URI: "http://skillswap-keycloak-http/realms/skillswap-dev"
+  SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI: "http://localhost:8180/realms/skillswap-dev"
+  SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI: "http://skillswap-keycloak-http/realms/skillswap-dev/protocol/openid-connect/certs"
