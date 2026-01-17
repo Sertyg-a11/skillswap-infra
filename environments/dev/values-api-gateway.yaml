@@ -7,8 +7,12 @@ env:
   SERVER_PORT: "8081"
   USER_SERVICE_URL: "http://skillswap-user-service:8082"
   MESSAGE_SERVICE_URL: "http://skillswap-message-service:8083"
-  KEYCLOAK_ISSUER_URI: "http://keycloak:8080/realms/skillswap-dev"
-  KEYCLOAK_JWK_SET_URI: "http://keycloak:8080/realms/skillswap-dev/protocol/openid-connect/certs"
+  KEYCLOAK_ISSUER_URI: "http://skillswap-keycloak-http/realms/skillswap-dev"
+  KEYCLOAK_JWK_SET_URI: "http://skillswap-keycloak-http/realms/skillswap-dev/protocol/openid-connect/certs"
+  SPRING_RABBITMQ_HOST: "skillswap-rabbitmq"
+  SPRING_RABBITMQ_PORT: "5672"
+  SPRING_RABBITMQ_USERNAME: "skillswap"
+  SPRING_RABBITMQ_PASSWORD: "skillswap"
 
 ingress:
   enabled: true

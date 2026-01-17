@@ -13,5 +13,7 @@ env:
   SPRING_DATA_REDIS_PORT: "6379"
   SPRING_RABBITMQ_HOST: "skillswap-rabbitmq"
   SPRING_RABBITMQ_PORT: "5672"
+  SPRING_RABBITMQ_USERNAME: "skillswap"
+  SPRING_RABBITMQ_PASSWORD: "skillswap"
   USER_SERVICE_URL: "http://skillswap-user-service:8082"
-  KEYCLOAK_ISSUER_URI: "http://keycloak:8080/realms/skillswap-dev"
+  KEYCLOAK_ISSUER_URI: "http://skillswap-keycloak-http/realms/skillswap-dev"
