@@ -25,7 +25,7 @@ spec:
         - name: image.repository
           value: bitnami/postgresql
         - name: image.tag
-          value: "16.4.0-debian-12-r13"
+          value: "latest"
 
       # 2) Minimal inline values for our release
       values: |
