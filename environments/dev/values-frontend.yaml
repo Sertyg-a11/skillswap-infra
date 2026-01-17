@@ -1,6 +1,6 @@
 image:
   repository: ghcr.io/sertyg-a11/skillswap-frontend
-  tag: "dev"                   # CI will replace with the commit SHA
+  tag: "f004c41"                   # CI will replace with the commit SHA
 ingress:
   host: skillswap.localtest.me
 env:
