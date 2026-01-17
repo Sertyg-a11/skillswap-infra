@@ -13,7 +13,7 @@ spec:
   source:
     repoURL: https://charts.bitnami.com/bitnami
     chart: rabbitmq
-    targetRevision: 15.1.2
+    targetRevision: 14.6.6
     helm:
       values: |
         fullnameOverride: skillswap-rabbitmq

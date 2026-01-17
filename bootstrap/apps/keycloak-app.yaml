@@ -1,0 +1,55 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: skillswap-keycloak
+  namespace: argocd
+  labels:
+    app.kubernetes.io/name: skillswap-keycloak
+    app.kubernetes.io/component: auth
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://charts.bitnami.com/bitnami
+    chart: keycloak
+    targetRevision: 22.2.4
+    helm:
+      values: |
+        fullnameOverride: keycloak
+        auth:
+          adminUser: admin
+          adminPassword: admin
+        postgresql:
+          enabled: true
+          auth:
+            postgresPassword: keycloak
+            password: keycloak
+          primary:
+            persistence:
+              enabled: false
+        service:
+          type: ClusterIP
+          ports:
+            http: 8080
+        resources:
+          requests:
+            memory: 512Mi
+            cpu: 250m
+          limits:
+            memory: 1Gi
+            cpu: 1000m
+        extraEnvVars:
+          - name: KEYCLOAK_EXTRA_ARGS
+            value: "--import-realm"
+        keycloakConfigCli:
+          enabled: false
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: skillswap
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
