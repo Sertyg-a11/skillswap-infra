@@ -6,5 +6,5 @@ spec:
   selector: { app: skillswap-frontend }
   ports:
     - name: http
-      port: 8080
-      targetPort: 8080
+      port: 80
+      targetPort: 80
