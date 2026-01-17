@@ -11,27 +11,37 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://charts.bitnami.com/bitnami
+    repoURL: https://codecentric.github.io/helm-charts
     chart: keycloak
-    targetRevision: 22.2.4
+    targetRevision: 18.4.4
     helm:
       values: |
-        fullnameOverride: keycloak
-        auth:
-          adminUser: admin
-          adminPassword: admin
-        postgresql:
-          enabled: true
-          auth:
-            postgresPassword: keycloak
-            password: keycloak
-          primary:
-            persistence:
-              enabled: false
+        replicas: 1
+        image:
+          repository: quay.io/keycloak/keycloak
+          tag: 25.0
+        command:
+          - "/opt/keycloak/bin/kc.sh"
+          - "start-dev"
+        extraEnv: |
+          - name: KEYCLOAK_ADMIN
+            value: admin
+          - name: KEYCLOAK_ADMIN_PASSWORD
+            value: admin
+          - name: KC_DB
+            value: postgres
+          - name: KC_DB_URL
+            value: jdbc:postgresql://skillswap-postgres:5432/keycloak
+          - name: KC_DB_USERNAME
+            value: skillswap
+          - name: KC_DB_PASSWORD
+            value: skillswap
+          - name: KC_HEALTH_ENABLED
+            value: "true"
         service:
           type: ClusterIP
-          ports:
-            http: 8080
+        postgresql:
+          enabled: false
         resources:
           requests:
             memory: 512Mi
@@ -39,11 +49,6 @@ spec:
           limits:
             memory: 1Gi
             cpu: 1000m
-        extraEnvVars:
-          - name: KEYCLOAK_EXTRA_ARGS
-            value: "--import-realm"
-        keycloakConfigCli:
-          enabled: false
   destination:
     server: https://kubernetes.default.svc
     namespace: skillswap
