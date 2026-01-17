@@ -5,6 +5,7 @@ image:
 env:
   SPRING_PROFILES_ACTIVE: "k8s"
   SERVER_PORT: "8082"
+  SPRING_FLYWAY_TABLE: "flyway_schema_history_user"
   SPRING_DATASOURCE_URL: "jdbc:postgresql://skillswap-postgres:5432/skillswap"
   SPRING_DATASOURCE_USERNAME: "skillswap"
   SPRING_DATASOURCE_PASSWORD: "skillswap"
