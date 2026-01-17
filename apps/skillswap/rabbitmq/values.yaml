@@ -1,0 +1,21 @@
+image:
+  repository: rabbitmq
+  tag: "3-management-alpine"
+  pullPolicy: IfNotPresent
+
+auth:
+  username: skillswap
+  password: skillswap
+
+service:
+  type: ClusterIP
+  amqpPort: 5672
+  managementPort: 15672
+
+resources:
+  requests:
+    memory: 256Mi
+    cpu: 100m
+  limits:
+    memory: 512Mi
+    cpu: 500m

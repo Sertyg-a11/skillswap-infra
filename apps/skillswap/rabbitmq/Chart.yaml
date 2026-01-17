@@ -1,0 +1,5 @@
+apiVersion: v2
+name: skillswap-rabbitmq
+description: RabbitMQ message broker for SkillSwap
+version: 1.0.0
+appVersion: "3.13"

@@ -11,24 +11,9 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://charts.bitnami.com/bitnami
-    chart: rabbitmq
-    targetRevision: 14.6.6
-    helm:
-      values: |
-        fullnameOverride: skillswap-rabbitmq
-        auth:
-          username: skillswap
-          password: skillswap
-        persistence:
-          enabled: false
-        resources:
-          requests:
-            memory: 256Mi
-            cpu: 100m
-          limits:
-            memory: 512Mi
-            cpu: 500m
+    repoURL: https://github.com/Sertyg-a11/skillswap-infra.git
+    targetRevision: main
+    path: apps/skillswap/rabbitmq
   destination:
     server: https://kubernetes.default.svc
     namespace: skillswap
