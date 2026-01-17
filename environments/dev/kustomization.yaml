@@ -1,17 +1,33 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
+namespace: skillswap
+
 helmCharts:
   - name: skillswap-frontend
-    namespace: default
+    namespace: skillswap
     releaseName: skillswap-frontend
     version: 0.1.0
     repo: "file://../../apps/skillswap/frontend"
     valuesFile: values-frontend.yaml
 
-  - name: skillswap-backend
-    namespace: default
-    releaseName: skillswap-backend
+  - name: skillswap-api-gateway
+    namespace: skillswap
+    releaseName: skillswap-api-gateway
     version: 0.1.0
-    repo: "file://../../apps/skillswap/backend"
-    valuesFile: values-backend.yaml
+    repo: "file://../../apps/skillswap/api-gateway"
+    valuesFile: values-api-gateway.yaml
+
+  - name: skillswap-user-service
+    namespace: skillswap
+    releaseName: skillswap-user-service
+    version: 0.1.0
+    repo: "file://../../apps/skillswap/user-service"
+    valuesFile: values-user-service.yaml
+
+  - name: skillswap-message-service
+    namespace: skillswap
+    releaseName: skillswap-message-service
+    version: 0.1.0
+    repo: "file://../../apps/skillswap/message-service"
+    valuesFile: values-message-service.yaml

@@ -1,0 +1,43 @@
+image:
+  repository: ghcr.io/sertyg-a11/skillswap-message-service
+  tag: "dev"
+  pullPolicy: IfNotPresent
+
+replicaCount: 1
+
+service:
+  type: ClusterIP
+  port: 8083
+
+resources:
+  requests:
+    memory: "256Mi"
+    cpu: "100m"
+  limits:
+    memory: "512Mi"
+    cpu: "500m"
+
+env:
+  SPRING_PROFILES_ACTIVE: "k8s"
+  SERVER_PORT: "8083"
+  SPRING_DATASOURCE_URL: "jdbc:postgresql://skillswap-postgres:5432/skillswap"
+  SPRING_DATASOURCE_USERNAME: "skillswap"
+  SPRING_DATASOURCE_PASSWORD: "skillswap"
+  SPRING_REDIS_HOST: "skillswap-redis"
+  SPRING_REDIS_PORT: "6379"
+  SPRING_RABBITMQ_HOST: "skillswap-rabbitmq"
+  SPRING_RABBITMQ_PORT: "5672"
+  USER_SERVICE_URL: "http://skillswap-user-service:8082"
+
+probes:
+  readiness:
+    path: /actuator/health/readiness
+    initialDelaySeconds: 20
+    periodSeconds: 5
+  liveness:
+    path: /actuator/health/liveness
+    initialDelaySeconds: 40
+    periodSeconds: 10
+
+metrics:
+  enabled: true

@@ -1,0 +1,15 @@
+image:
+  repository: ghcr.io/sertyg-a11/skillswap-user-service
+  tag: "dev"
+
+env:
+  SPRING_PROFILES_ACTIVE: "k8s"
+  SERVER_PORT: "8082"
+  SPRING_DATASOURCE_URL: "jdbc:postgresql://skillswap-postgres:5432/skillswap"
+  SPRING_DATASOURCE_USERNAME: "skillswap"
+  SPRING_DATASOURCE_PASSWORD: "skillswap"
+  SPRING_REDIS_HOST: "skillswap-redis"
+  SPRING_REDIS_PORT: "6379"
+  SPRING_RABBITMQ_HOST: "skillswap-rabbitmq"
+  SPRING_RABBITMQ_PORT: "5672"
+  KEYCLOAK_ISSUER_URI: "http://keycloak:8080/realms/skillswap-dev"

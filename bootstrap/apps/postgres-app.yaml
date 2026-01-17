@@ -3,11 +3,16 @@ kind: Application
 metadata:
   name: skillswap-postgres
   namespace: argocd
+  labels:
+    app.kubernetes.io/name: skillswap-postgres
+    app.kubernetes.io/component: database
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 spec:
   project: default
   destination:
     server: https://kubernetes.default.svc
-    namespace: default
+    namespace: skillswap
   source:
     repoURL: https://charts.bitnami.com/bitnami
     chart: postgresql

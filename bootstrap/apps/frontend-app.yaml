@@ -3,18 +3,26 @@ kind: Application
 metadata:
   name: skillswap-frontend
   namespace: argocd
+  labels:
+    app.kubernetes.io/name: skillswap-frontend
+    app.kubernetes.io/component: frontend
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 spec:
   project: default
   source:
     repoURL: https://github.com/Sertyg-a11/skillswap-infra.git
     targetRevision: main
-    path: apps/skillswap/frontend                # <- Helm chart folder
+    path: apps/skillswap/frontend
     helm:
       valueFiles:
-        - ../../../environments/dev/values-frontend.yaml  # <- relative to path above
+        - ../../../environments/dev/values-frontend.yaml
   destination:
     server: https://kubernetes.default.svc
-    namespace: default
+    namespace: skillswap
   syncPolicy:
-    automated: { prune: true, selfHeal: true }
-    syncOptions: [ CreateNamespace=true ]
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

@@ -1,0 +1,16 @@
+image:
+  repository: ghcr.io/sertyg-a11/skillswap-api-gateway
+  tag: "dev"
+
+env:
+  SPRING_PROFILES_ACTIVE: "k8s"
+  SERVER_PORT: "8081"
+  USER_SERVICE_URL: "http://skillswap-user-service:8082"
+  MESSAGE_SERVICE_URL: "http://skillswap-message-service:8083"
+  KEYCLOAK_ISSUER_URI: "http://keycloak:8080/realms/skillswap-dev"
+  KEYCLOAK_JWK_SET_URI: "http://keycloak:8080/realms/skillswap-dev/protocol/openid-connect/certs"
+
+ingress:
+  enabled: true
+  className: traefik
+  host: api.skillswap.localtest.me

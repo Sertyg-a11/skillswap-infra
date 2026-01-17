@@ -1,11 +1,11 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: skillswap-root
+  name: skillswap-message-service
   namespace: argocd
   labels:
-    app.kubernetes.io/name: skillswap-root
-    app.kubernetes.io/part-of: skillswap
+    app.kubernetes.io/name: skillswap-message-service
+    app.kubernetes.io/component: backend
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
@@ -13,14 +13,16 @@ spec:
   source:
     repoURL: https://github.com/Sertyg-a11/skillswap-infra.git
     targetRevision: main
-    path: bootstrap/apps
+    path: apps/skillswap/message-service
+    helm:
+      valueFiles:
+        - ../../../environments/dev/values-message-service.yaml
   destination:
     server: https://kubernetes.default.svc
-    namespace: argocd
+    namespace: skillswap
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
-

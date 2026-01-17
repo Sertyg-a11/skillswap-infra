@@ -45,7 +45,7 @@ services:
       - skillswap-net
 
   # -------------------------
-  # RABBITMQ (needed by user-service now)
+  # RABBITMQ (needed by user-service and message-service)
   # -------------------------
   rabbitmq:
     image: rabbitmq:3.13-management-alpine
@@ -53,6 +53,19 @@ services:
     ports:
       - "5672:5672"
       - "15672:15672"
+    networks:
+      - skillswap-net
+
+  # -------------------------
+  # REDIS (caching, sessions, rate limiting)
+  # -------------------------
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
     networks:
       - skillswap-net
 
@@ -71,12 +84,19 @@ services:
       KEYCLOAK_JWK_SET_URI: http://keycloak:8080/realms/skillswap-dev/protocol/openid-connect/certs
       USER_SERVICE_URL: http://user-service:8082
       MESSAGE_SERVICE_URL: http://message-service:8083
+
+      # RabbitMQ for GDPR event orchestration
+      RABBIT_HOST: rabbitmq
+      RABBIT_PORT: "5672"
+      RABBIT_USERNAME: guest
+      RABBIT_PASSWORD: guest
     depends_on:
       - keycloak
+      - rabbitmq
       - user-service
+      - message-service
     networks:
       - skillswap-net
-
 
   # -------------------------
   # USER-SERVICE (uses Supabase DB from env file)
@@ -92,6 +112,10 @@ services:
       KEYCLOAK_ISSUER_URI: http://localhost:8080/realms/skillswap-dev
       KEYCLOAK_JWK_SET_URI: http://keycloak:8080/realms/skillswap-dev/protocol/openid-connect/certs
 
+      # Redis for caching and rate limiting
+      REDIS_HOST: redis
+      REDIS_PORT: "6379"
+
       # RabbitMQ for user.deleted event
       RABBIT_HOST: rabbitmq
       RABBIT_PORT: "5672"
@@ -102,10 +126,47 @@ services:
       - ../../skillswap-backend/.env
     depends_on:
       - rabbitmq
+      - redis
       - keycloak
     networks:
       - skillswap-net
-      
+
+  # -------------------------
+  # MESSAGE-SERVICE (WebSocket, RabbitMQ, Redis)
+  # -------------------------
+  message-service:
+    build:
+      context: ../../skillswap-backend
+      dockerfile: message-service/Dockerfile
+    restart: unless-stopped
+    ports:
+      - "8083:8083"
+    environment:
+      KEYCLOAK_ISSUER_URI: http://localhost:8080/realms/skillswap-dev
+      KEYCLOAK_JWK_SET_URI: http://keycloak:8080/realms/skillswap-dev/protocol/openid-connect/certs
+
+      # Redis for caching, sessions, rate limiting
+      REDIS_HOST: redis
+      REDIS_PORT: "6379"
+
+      # RabbitMQ for event-driven messaging
+      RABBIT_HOST: rabbitmq
+      RABBIT_PORT: "5672"
+      RABBIT_USERNAME: guest
+      RABBIT_PASSWORD: guest
+
+      # User service for validation
+      USER_SERVICE_URL: http://user-service:8082
+    env_file:
+      - ../../skillswap-backend/.env
+    depends_on:
+      - rabbitmq
+      - redis
+      - keycloak
+      - user-service
+    networks:
+      - skillswap-net
+
   # -------------------------
   # FRONTEND (Vite build -> Nginx)
   # -------------------------
@@ -132,3 +193,4 @@ networks:
 
 volumes:
   keycloak-db-data:
+  redis-data:

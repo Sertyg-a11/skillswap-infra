@@ -1,9 +1,0 @@
-image:
-  repository: ghcr.io/sertyg-a11/skillswap-backend
-  tag: "dev"
-
-env:
-  SPRING_PROFILES_ACTIVE: "k8s"
-  SPRING_DATASOURCE_URL: "jdbc:postgresql://skillswap-postgres:5432/skillswap"
-  SPRING_DATASOURCE_USERNAME: "skillswap"
-  SPRING_DATASOURCE_PASSWORD: "skillswap"

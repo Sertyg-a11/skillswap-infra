@@ -1,0 +1,40 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: skillswap-rabbitmq
+  namespace: argocd
+  labels:
+    app.kubernetes.io/name: skillswap-rabbitmq
+    app.kubernetes.io/component: messaging
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://charts.bitnami.com/bitnami
+    chart: rabbitmq
+    targetRevision: 15.1.2
+    helm:
+      values: |
+        fullnameOverride: skillswap-rabbitmq
+        auth:
+          username: skillswap
+          password: skillswap
+        persistence:
+          enabled: false
+        resources:
+          requests:
+            memory: 256Mi
+            cpu: 100m
+          limits:
+            memory: 512Mi
+            cpu: 500m
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: skillswap
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

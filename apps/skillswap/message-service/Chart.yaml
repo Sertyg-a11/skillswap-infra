@@ -1,0 +1,6 @@
+apiVersion: v2
+name: skillswap-message-service
+description: Message Service for SkillSwap - handles messaging and conversations
+type: application
+version: 0.1.0
+appVersion: "1.0.0"

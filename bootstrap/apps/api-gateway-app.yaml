@@ -1,11 +1,11 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: skillswap-root
+  name: skillswap-api-gateway
   namespace: argocd
   labels:
-    app.kubernetes.io/name: skillswap-root
-    app.kubernetes.io/part-of: skillswap
+    app.kubernetes.io/name: skillswap-api-gateway
+    app.kubernetes.io/component: gateway
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
@@ -13,14 +13,16 @@ spec:
   source:
     repoURL: https://github.com/Sertyg-a11/skillswap-infra.git
     targetRevision: main
-    path: bootstrap/apps
+    path: apps/skillswap/api-gateway
+    helm:
+      valueFiles:
+        - ../../../environments/dev/values-api-gateway.yaml
   destination:
     server: https://kubernetes.default.svc
-    namespace: argocd
+    namespace: skillswap
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
-

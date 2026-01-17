@@ -29,7 +29,7 @@
 
       "standardFlowEnabled": true,
       "implicitFlowEnabled": false,
-      "directAccessGrantsEnabled": false,
+      "directAccessGrantsEnabled": true,
       "serviceAccountsEnabled": false,
 
       "redirectUris": [
@@ -81,6 +81,28 @@
         { "type": "password", "value": "adminpass", "temporary": false }
       ],
       "realmRoles": ["admin"]
+    },
+    {
+      "username": "alice",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Alice",
+      "lastName": "Developer",
+      "email": "alice@skillswap.local",
+      "credentials": [
+        { "type": "password", "value": "alicepass", "temporary": false }
+      ]
+    },
+    {
+      "username": "bob",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Bob",
+      "lastName": "Designer",
+      "email": "bob@skillswap.local",
+      "credentials": [
+        { "type": "password", "value": "bobpass", "temporary": false }
+      ]
     }
   ]
 }
