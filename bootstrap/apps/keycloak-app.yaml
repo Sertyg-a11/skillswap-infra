@@ -42,6 +42,30 @@ spec:
           type: ClusterIP
         postgresql:
           enabled: false
+        startupProbe: |
+          httpGet:
+            path: /realms/master
+            port: http
+          initialDelaySeconds: 30
+          periodSeconds: 5
+          failureThreshold: 60
+          timeoutSeconds: 1
+        livenessProbe: |
+          httpGet:
+            path: /realms/master
+            port: http
+          initialDelaySeconds: 0
+          periodSeconds: 10
+          failureThreshold: 3
+          timeoutSeconds: 5
+        readinessProbe: |
+          httpGet:
+            path: /realms/master
+            port: http
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          failureThreshold: 3
+          timeoutSeconds: 1
         resources:
           requests:
             memory: 512Mi
