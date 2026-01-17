@@ -13,13 +13,15 @@ spec:
   source:
     repoURL: https://charts.bitnami.com/bitnami
     chart: redis
-    targetRevision: 20.6.0
+    targetRevision: 20.3.0
     helm:
       values: |
         fullnameOverride: skillswap-redis
         architecture: standalone
         auth:
           enabled: false
+        image:
+          tag: 7.4
         master:
           persistence:
             enabled: false

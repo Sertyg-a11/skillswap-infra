@@ -17,6 +17,8 @@ spec:
     helm:
       values: |
         fullnameOverride: skillswap-rabbitmq
+        image:
+          tag: 4.0
         auth:
           username: skillswap
           password: skillswap
