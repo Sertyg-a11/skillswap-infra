@@ -1,0 +1,61 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Deploy to DigitalOcean
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Deploy to server
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: root
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            set -e
+
+            # Create app directory if not exists
+            mkdir -p /app
+            cd /app
+
+            # Create .env file from secrets
+            cat > .env << 'ENVEOF'
+            DOMAIN=${{ secrets.DOMAIN }}
+            ACME_EMAIL=${{ secrets.ACME_EMAIL }}
+            IMAGE_TAG=dev
+            KEYCLOAK_ADMIN_PASSWORD=${{ secrets.KEYCLOAK_ADMIN_PASSWORD }}
+            KEYCLOAK_DB_PASSWORD=${{ secrets.KEYCLOAK_DB_PASSWORD }}
+            RABBITMQ_USER=skillswap
+            RABBITMQ_PASSWORD=${{ secrets.RABBITMQ_PASSWORD }}
+            USER_DB_URL=${{ secrets.USER_DB_URL }}
+            USER_DB_USERNAME=${{ secrets.USER_DB_USERNAME }}
+            USER_DB_PASSWORD=${{ secrets.USER_DB_PASSWORD }}
+            SWAP_DB_URL=${{ secrets.SWAP_DB_URL }}
+            SWAP_DB_USERNAME=${{ secrets.SWAP_DB_USERNAME }}
+            SWAP_DB_PASSWORD=${{ secrets.SWAP_DB_PASSWORD }}
+            ENVEOF
+
+            # Download latest docker-compose
+            curl -fsSL https://raw.githubusercontent.com/${{ github.repository }}/main/deploy/docker-compose.prod.yml -o docker-compose.yml
+
+            # Create keycloak import directory
+            mkdir -p keycloak/import
+
+            # Login to GHCR
+            echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+            # Pull latest images and deploy
+            docker compose pull
+            docker compose up -d
+
+            # Show status
+            docker compose ps
