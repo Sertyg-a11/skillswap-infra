@@ -14,48 +14,69 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Deploy to server
-        uses: appleboy/ssh-action@v1.0.3
+      - name: Copy files to server
+        uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.SERVER_IP }}
           username: root
           key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: "deploy/docker-compose.prod.yml"
+          target: "/app"
+          strip_components: 1
+
+      - name: Deploy to server
+        uses: appleboy/ssh-action@v1.0.3
+        env:
+          DOMAIN: ${{ secrets.DOMAIN }}
+          ACME_EMAIL: ${{ secrets.ACME_EMAIL }}
+          KEYCLOAK_ADMIN_PASSWORD: ${{ secrets.KEYCLOAK_ADMIN_PASSWORD }}
+          KEYCLOAK_DB_PASSWORD: ${{ secrets.KEYCLOAK_DB_PASSWORD }}
+          RABBITMQ_PASSWORD: ${{ secrets.RABBITMQ_PASSWORD }}
+          USER_DB_URL: ${{ secrets.USER_DB_URL }}
+          USER_DB_USERNAME: ${{ secrets.USER_DB_USERNAME }}
+          USER_DB_PASSWORD: ${{ secrets.USER_DB_PASSWORD }}
+          SWAP_DB_URL: ${{ secrets.SWAP_DB_URL }}
+          SWAP_DB_USERNAME: ${{ secrets.SWAP_DB_USERNAME }}
+          SWAP_DB_PASSWORD: ${{ secrets.SWAP_DB_PASSWORD }}
+          GHCR_TOKEN: ${{ secrets.GHCR_TOKEN }}
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: root
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          envs: DOMAIN,ACME_EMAIL,KEYCLOAK_ADMIN_PASSWORD,KEYCLOAK_DB_PASSWORD,RABBITMQ_PASSWORD,USER_DB_URL,USER_DB_USERNAME,USER_DB_PASSWORD,SWAP_DB_URL,SWAP_DB_USERNAME,SWAP_DB_PASSWORD,GHCR_TOKEN
           script: |
             set -e
-
-            # Create app directory if not exists
-            mkdir -p /app
             cd /app
 
-            # Create .env file from secrets
-            cat > .env << 'ENVEOF'
-            DOMAIN=${{ secrets.DOMAIN }}
-            ACME_EMAIL=${{ secrets.ACME_EMAIL }}
-            IMAGE_TAG=dev
-            KEYCLOAK_ADMIN_PASSWORD=${{ secrets.KEYCLOAK_ADMIN_PASSWORD }}
-            KEYCLOAK_DB_PASSWORD=${{ secrets.KEYCLOAK_DB_PASSWORD }}
-            RABBITMQ_USER=skillswap
-            RABBITMQ_PASSWORD=${{ secrets.RABBITMQ_PASSWORD }}
-            USER_DB_URL=${{ secrets.USER_DB_URL }}
-            USER_DB_USERNAME=${{ secrets.USER_DB_USERNAME }}
-            USER_DB_PASSWORD=${{ secrets.USER_DB_PASSWORD }}
-            SWAP_DB_URL=${{ secrets.SWAP_DB_URL }}
-            SWAP_DB_USERNAME=${{ secrets.SWAP_DB_USERNAME }}
-            SWAP_DB_PASSWORD=${{ secrets.SWAP_DB_PASSWORD }}
-            ENVEOF
+            # Rename docker-compose file
+            mv -f docker-compose.prod.yml docker-compose.yml 2>/dev/null || true
 
-            # Download latest docker-compose
-            curl -fsSL https://raw.githubusercontent.com/${{ github.repository }}/main/deploy/docker-compose.prod.yml -o docker-compose.yml
+            # Create .env file
+            cat > .env << EOF
+            DOMAIN=${DOMAIN}
+            ACME_EMAIL=${ACME_EMAIL}
+            IMAGE_TAG=dev
+            KEYCLOAK_ADMIN_PASSWORD=${KEYCLOAK_ADMIN_PASSWORD}
+            KEYCLOAK_DB_PASSWORD=${KEYCLOAK_DB_PASSWORD}
+            RABBITMQ_USER=skillswap
+            RABBITMQ_PASSWORD=${RABBITMQ_PASSWORD}
+            USER_DB_URL=${USER_DB_URL}
+            USER_DB_USERNAME=${USER_DB_USERNAME}
+            USER_DB_PASSWORD=${USER_DB_PASSWORD}
+            SWAP_DB_URL=${SWAP_DB_URL}
+            SWAP_DB_USERNAME=${SWAP_DB_USERNAME}
+            SWAP_DB_PASSWORD=${SWAP_DB_PASSWORD}
+            EOF
 
             # Create keycloak import directory
             mkdir -p keycloak/import
 
             # Login to GHCR
-            echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+            echo "${GHCR_TOKEN}" | docker login ghcr.io -u sertyg-a11 --password-stdin
 
             # Pull latest images and deploy
-            docker compose pull
-            docker compose up -d
+            docker-compose pull
+            docker-compose up -d
 
             # Show status
-            docker compose ps
+            docker-compose ps
