@@ -1,0 +1,95 @@
+{
+  "realm": "skillswap",
+  "enabled": true,
+  "displayName": "SKILLSWAP",
+
+  "registrationAllowed": true,
+  "resetPasswordAllowed": true,
+  "loginWithEmailAllowed": true,
+  "duplicateEmailsAllowed": false,
+
+  "sslRequired": "external",
+
+  "roles": {
+    "realm": [
+      { "name": "admin", "description": "Administrator" }
+    ]
+  },
+
+  "clients": [
+    {
+      "clientId": "skillswap-frontend",
+      "name": "skillswap-frontend",
+      "enabled": true,
+      "protocol": "openid-connect",
+
+      "publicClient": true,
+      "clientAuthenticatorType": "client-secret",
+
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": true,
+      "serviceAccountsEnabled": false,
+
+      "redirectUris": [
+        "https://skillswap.174.138.15.22.nip.io/*"
+      ],
+      "webOrigins": [
+        "https://skillswap.174.138.15.22.nip.io"
+      ],
+
+      "attributes": {
+        "post.logout.redirect.uris": "https://skillswap.174.138.15.22.nip.io/*"
+      }
+    },
+
+    {
+      "clientId": "skillswap-api-gateway",
+      "name": "skillswap-api-gateway",
+      "enabled": true,
+      "protocol": "openid-connect",
+
+      "publicClient": true,
+      "standardFlowEnabled": false,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": false
+    }
+  ],
+
+  "users": [
+    {
+      "username": "demo",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Demo",
+      "lastName": "User",
+      "email": "demo@skillswap.io",
+      "credentials": [
+        { "type": "password", "value": "demo123", "temporary": false }
+      ]
+    },
+    {
+      "username": "alice",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Alice",
+      "lastName": "Developer",
+      "email": "alice@skillswap.io",
+      "credentials": [
+        { "type": "password", "value": "alice123", "temporary": false }
+      ]
+    },
+    {
+      "username": "bob",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Bob",
+      "lastName": "Designer",
+      "email": "bob@skillswap.io",
+      "credentials": [
+        { "type": "password", "value": "bob123", "temporary": false }
+      ]
+    }
+  ]
+}

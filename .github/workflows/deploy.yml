@@ -20,7 +20,7 @@ jobs:
           host: ${{ secrets.SERVER_IP }}
           username: root
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: "deploy/docker-compose.prod.yml"
+          source: "deploy/docker-compose.prod.yml,deploy/keycloak"
           target: "/app"
           strip_components: 1
 
@@ -73,6 +73,11 @@ jobs:
 
             # Login to GHCR
             echo "${GHCR_TOKEN}" | docker login ghcr.io -u sertyg-a11 --password-stdin
+
+            # Stop and remove keycloak to force realm reimport
+            docker-compose stop keycloak keycloak-db 2>/dev/null || true
+            docker-compose rm -f keycloak keycloak-db 2>/dev/null || true
+            docker volume rm skillswap-prod_keycloak-db-data 2>/dev/null || true
 
             # Pull latest images and deploy
             docker-compose pull
