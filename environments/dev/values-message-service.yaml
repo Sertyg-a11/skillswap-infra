@@ -1,6 +1,6 @@
 image:
   repository: ghcr.io/sertyg-a11/skillswap-message-service
-  tag: "dev"
+  tag: "556a117"
 
 env:
   SPRING_PROFILES_ACTIVE: "k8s"
