@@ -165,6 +165,7 @@ services:
       RABBIT_USERNAME: ${RABBITMQ_USER:-skillswap}
       RABBIT_PASSWORD: ${RABBITMQ_PASSWORD:-skillswap}
       USER_SERVICE_URL: http://user-service:8082
+      WEBSOCKET_ALLOWED_ORIGINS: https://${DOMAIN},http://localhost:5173,http://localhost:3000
       # Neon DB
       SWAP_DB_URL: ${SWAP_DB_URL}
       SWAP_DB_USERNAME: ${SWAP_DB_USERNAME}
