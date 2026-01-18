@@ -173,6 +173,12 @@ services:
       - rabbitmq
       - redis
       - user-service
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.ws.rule=Host(`${DOMAIN}`) && PathPrefix(`/ws`)"
+      - "traefik.http.routers.ws.entrypoints=websecure"
+      - "traefik.http.routers.ws.tls.certresolver=letsencrypt"
+      - "traefik.http.services.ws.loadbalancer.server.port=8083"
     networks:
       - skillswap-net
 
