@@ -108,6 +108,7 @@ services:
       KEYCLOAK_JWK_SET_URI: http://keycloak:8080/auth/realms/skillswap/protocol/openid-connect/certs
       USER_SERVICE_URL: http://user-service:8082
       MESSAGE_SERVICE_URL: http://message-service:8083
+      CORS_ALLOWED_ORIGINS: https://${DOMAIN},http://localhost:5173,http://localhost:3000
       RABBIT_HOST: rabbitmq
       RABBIT_PORT: "5672"
       RABBIT_USERNAME: ${RABBITMQ_USER:-skillswap}
